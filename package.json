@@ -13,9 +13,10 @@
   "license": "MIT",
   "scripts": {
     "audit": "npm audit fix",
-    "build": "next build && next export",
+    "build": "next build",
     "clear-react-import": "npx react-codemod update-react-imports",
     "dev": "next dev -p 9865",
+    "export": "next export",
     "lint": "eslint --ext .js,.jsx pages/",
     "outdated": "npx npm-check-updates -u",
     "set": "npm i",
