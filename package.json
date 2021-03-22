@@ -1,6 +1,6 @@
 {
   "name": "crime-map",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Ebuka Isiadinso",
     "email": "ebukaa@protonmail.com"
@@ -32,7 +32,8 @@
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "swr": "^0.5.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.13.10",
