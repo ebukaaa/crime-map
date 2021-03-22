@@ -1,6 +1,4 @@
-import styles from "./style.module.scss";
-
-const { page } = styles;
+import { page } from "./style.module.scss";
 
 export function useStore() {
   return { page };
