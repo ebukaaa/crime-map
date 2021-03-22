@@ -1,0 +1,9 @@
+@import "styles/default";
+
+#app {
+  position: relative;
+  color: $primary-color;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
