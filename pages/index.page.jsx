@@ -19,13 +19,13 @@ export function useHome({ crimes }) {
 export default useHome;
 
 export async function getStaticProps() {
-  appProps();
-  // const data = await fetch(url);
-  // const crimes = await data.json();
+  const { url } = appProps();
+  const data = await fetch(url);
+  const crimes = await data.json();
 
   return {
     props: {
-      crimes: [],
+      crimes,
     },
     revalidate: 1,
   };
