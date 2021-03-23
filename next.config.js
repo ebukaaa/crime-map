@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
   distDir: "build",
   pageExtensions: ["page.jsx", "page.js"],

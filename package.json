@@ -1,6 +1,6 @@
 {
   "name": "crime-map",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Ebuka Isiadinso",
     "email": "ebukaa@protonmail.com"
@@ -13,9 +13,10 @@
   "license": "MIT",
   "scripts": {
     "audit": "npm audit fix",
-    "build": "next build && next export",
+    "build": "next build",
     "clear-react-import": "npx react-codemod update-react-imports",
     "dev": "next dev -p 9865",
+    "export": "next export",
     "lint": "eslint --ext .js,.jsx pages/",
     "outdated": "npx npm-check-updates -u",
     "set": "npm i",
@@ -29,16 +30,19 @@
   },
   "proxy": "http://localhost:9865",
   "dependencies": {
+    "encoding": "^0.1.13",
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "swr": "^0.5.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@types/jest": "^26.0.21",
     "babel-jest": "^26.6.3",
+    "dotenv": "^8.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.22.0",
