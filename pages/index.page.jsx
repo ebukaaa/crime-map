@@ -19,14 +19,14 @@ export function useHome({ crimes }) {
 export default useHome;
 
 export async function getStaticProps() {
-  const { url } = appProps();
-  const data = await fetch(url);
+  appProps();
+  const data = await fetch(
+    `https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=${new Date().getFullYear()}-01`
+  );
   const crimes = await data.json();
 
   return {
-    props: {
-      crimes,
-    },
+    props: { crimes },
     revalidate: 1,
   };
 }
