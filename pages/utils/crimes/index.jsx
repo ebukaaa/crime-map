@@ -13,11 +13,10 @@ export function useCrimes() {
   if (error) {
     return <main>Error fetching crimes</main>;
   }
-  if (!crimes) {
-    return <main>Loading crimes...</main>;
-  }
 
-  return (
+  return !crimes ? (
+    <main>Loading crimes...</main>
+  ) : (
     <main className={crimesStyles}>
       <aside>
         {categories?.map((category) => (
