@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SWRConfig } from "swr";
 import { useCrimes } from "./crimes";
 
@@ -17,6 +18,11 @@ export function useStore() {
     SWRConfig,
     Crimes: useCrimes,
     fetcher,
+  };
+}
+export function useAppProps() {
+  return {
+    Link,
   };
 }
 export function useProps() {

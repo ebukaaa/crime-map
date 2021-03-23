@@ -1,6 +1,6 @@
 {
   "name": "crime-map",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": {
     "name": "Ebuka Isiadinso",
     "email": "ebukaa@protonmail.com"
@@ -13,10 +13,9 @@
   "license": "MIT",
   "scripts": {
     "audit": "npm audit fix",
-    "build": "next build",
+    "build": "next build && next export",
     "clear-react-import": "npx react-codemod update-react-imports",
     "dev": "next dev -p 9865",
-    "export": "next export",
     "lint": "eslint --ext .js,.jsx pages/",
     "outdated": "npx npm-check-updates -u",
     "set": "npm i",
@@ -31,10 +30,14 @@
   "proxy": "http://localhost:9865",
   "dependencies": {
     "encoding": "^0.1.13",
+    "leaflet": "^1.7.1",
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-leaflet": "^3.1.0",
+    "react-leaflet-markercluster": "^3.0.0-rc1",
     "sass": "^1.32.8",
+    "supercluster": "^7.1.2",
     "swr": "^0.5.4"
   },
   "devDependencies": {

@@ -14,13 +14,14 @@ function putError({ error }) {
   return undefined;
 }
 let initCrimes;
-function putCrimes({ crimes }) {
-  if (initCrimes === crimes) {
-    return null;
-  }
-  initCrimes = crimes;
-  return undefined;
-}
+let putCrimes;
+// function putCrimes({ crimes }) {
+//   if (initCrimes === crimes) {
+//     return null;
+//   }
+//   initCrimes = crimes;
+//   return undefined;
+// }
 
 export function getCrimes({ crimes }) {
   return initFiltered
@@ -36,17 +37,37 @@ function updateFilter({ filtered, filter }) {
     putFilter = filter;
   }
 }
+function updateCrimes({ crimes, setCrimes }) {
+  if (initCrimes !== crimes) {
+    initCrimes = crimes;
+  }
+  if (setCrimes && putCrimes !== setCrimes) {
+    putCrimes = setCrimes;
+  }
+}
 
 export function useStore() {
   const { url, unmount } = useAppProps();
-  const { data: crimes = initCrimes, error = initError } = useSWR(url);
+  const { data = initCrimes, error = initError } = useSWR(url);
+
+  const [crimes, setCrimes] = useState(data);
+  updateCrimes({ crimes, setCrimes });
+  useEffect(() => unmount({ set: setCrimes }), [unmount]);
+  useEffect(() => updateCrimes({ crimes }), [crimes]);
 
   const [filtered, filter] = useState();
   updateFilter({ filtered, filter });
   useEffect(() => unmount({ set: filter }), [unmount]);
   useEffect(() => updateFilter({ filtered }), [filtered]);
 
-  const categories = [...new Set(crimes?.map((crime) => crime.category))];
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    setCrimes(data);
+  }, [data]);
+
+  const categories = [...new Set(crimes?.map(({ category }) => category))];
 
   return {
     crimesStyles,
