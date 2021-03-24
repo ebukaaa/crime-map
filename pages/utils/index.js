@@ -10,8 +10,6 @@ let putCrimes;
 let initError;
 let putError;
 
-// const url = `https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=${new Date().getFullYear()}-01`;
-// `${process.env.NEXT_PUBLIC_HOST}/api/crimes/get`;
 const latitude = 51.509865;
 const longitude = -0.118092;
 const url = `${
