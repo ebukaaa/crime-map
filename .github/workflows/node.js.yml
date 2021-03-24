@@ -29,6 +29,6 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
       env: 
-        NEXT_PUBLIC_CRIME_API: https://data.police.uk/api/crimes-street/all-crime
+        NEXT_PUBLIC_CRIME_API: ${{ secrets.NAME }}
     - run: npm run lint
     - run: npm test
