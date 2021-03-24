@@ -18,7 +18,7 @@ const url = process.env.NEXT_PUBLIC_CRIME_API
   ? `${
       process.env.NEXT_PUBLIC_CRIME_API
     }?lat=${latitude}&lng=${longitude}&date=${new Date().getFullYear()}-01`
-  : "https://data.police.uk/api/crimes-street/all-crime";
+  : `$NEXT_PUBLIC_CRIME_API?lat=${latitude}&lng=${longitude}&date=${new Date().getFullYear()}-01`;
 
 export async function fetcher(...args) {
   return fetch(...args).then((response) => response?.json());
