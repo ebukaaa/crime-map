@@ -1,9 +1,9 @@
 import { useStore } from "./utils";
 
 export function useMap() {
-  const { Map } = useStore();
+  const { Container } = useStore();
 
-  return <Map />;
+  return <Container />;
 }
 
 export default useMap;

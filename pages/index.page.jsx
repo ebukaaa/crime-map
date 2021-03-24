@@ -1,19 +1,40 @@
 import { useProps as appProps, useStore } from "./utils";
 
-export function useHome({ crimes }) {
-  const { SWRConfig, Crimes, fetcher } = useStore();
+export function useHome({ crimes: data }) {
+  const {
+    homeStyles,
+    controlsStyles,
+    error,
+    categories,
+    crimes,
+    Crimes,
+    Reset,
+    filter,
+  } = useStore({ data });
 
-  return (
-    <SWRConfig
-      value={{
-        fetcher,
-        initialData: crimes,
-        dedupingInterval: 5000,
-        focusThrottleInterval: 2.16 * 10 ** 7,
-      }}
-    >
+  if (error) {
+    return <main>{error}</main>;
+  }
+
+  return !crimes ? (
+    <main>Loading crimes...</main>
+  ) : (
+    <main className={homeStyles}>
+      <header className={controlsStyles}>
+        {categories?.map((category) => (
+          <button
+            type="button"
+            key={category}
+            onClick={filter.bind(null, category)}
+          >
+            {category}
+          </button>
+        ))}
+        <Reset />
+      </header>
+
       <Crimes />
-    </SWRConfig>
+    </main>
   );
 }
 export default useHome;

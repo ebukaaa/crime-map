@@ -1,21 +1,30 @@
-import { useAppProps } from "./utils";
+import { useAppStore } from "./utils";
 import "./style.scss";
 
 export function useApp({ Component, pageProps }) {
-  const { Link } = useAppProps();
+  const { Link, SWRConfig, fetcher, crimes } = useAppStore();
 
   return (
     <main id="app">
-      <Component {...pageProps} />
+      <SWRConfig
+        value={{
+          fetcher,
+          initialData: crimes || pageProps?.crimes,
+          dedupingInterval: 5000,
+          focusThrottleInterval: 2.16 * 10 ** 7,
+        }}
+      >
+        <Component {...pageProps} />
 
-      <footer>
-        <Link href="/map">
-          <button type="button">Map View</button>
-        </Link>
-        <Link href="/">
-          <button type="button">Document View</button>
-        </Link>
-      </footer>
+        <footer>
+          <Link href="/">
+            <button type="button">Document View</button>
+          </Link>
+          <Link href="/map">
+            <button type="button">Map View</button>
+          </Link>
+        </footer>
+      </SWRConfig>
     </main>
   );
 }

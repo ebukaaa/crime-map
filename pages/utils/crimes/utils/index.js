@@ -1,33 +1,13 @@
-import { useEffect, useState } from "react";
-import useSWR from "swr";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useState } from "react";
 import { useProps as useAppProps } from "../..";
-import { crimesStyles } from "./style.module.scss";
+import { useProps as resetButtonProps } from "../../reset-button/utils";
+import { crimesStyles, crimeStyles } from "./style.module.scss";
 
 let initFiltered;
 let putFilter;
-let initError;
-function putError({ error }) {
-  if (initError === error) {
-    return null;
-  }
-  initError = error;
-  return undefined;
-}
-let initCrimes;
-let putCrimes;
-// function putCrimes({ crimes }) {
-//   if (initCrimes === crimes) {
-//     return null;
-//   }
-//   initCrimes = crimes;
-//   return undefined;
-// }
 
-export function getCrimes({ crimes }) {
-  return initFiltered
-    ? crimes.filter((crime) => crime.category === initFiltered)
-    : crimes;
-}
+const useCrimes = dynamic(() => import("..").then((mod) => mod.useCrimes));
 
 function updateFilter({ filtered, filter }) {
   if (initFiltered !== filtered) {
@@ -37,23 +17,9 @@ function updateFilter({ filtered, filter }) {
     putFilter = filter;
   }
 }
-function updateCrimes({ crimes, setCrimes }) {
-  if (initCrimes !== crimes) {
-    initCrimes = crimes;
-  }
-  if (setCrimes && putCrimes !== setCrimes) {
-    putCrimes = setCrimes;
-  }
-}
 
 export function useStore() {
-  const { url, unmount } = useAppProps();
-  const { data = initCrimes, error = initError } = useSWR(url);
-
-  const [crimes, setCrimes] = useState(data);
-  updateCrimes({ crimes, setCrimes });
-  useEffect(() => unmount({ set: setCrimes }), [unmount]);
-  useEffect(() => updateCrimes({ crimes }), [crimes]);
+  const { unmount, initCrimes: crimes } = useAppProps();
 
   const [filtered, filter] = useState();
   updateFilter({ filtered, filter });
@@ -61,30 +27,26 @@ export function useStore() {
   useEffect(() => updateFilter({ filtered }), [filtered]);
 
   useEffect(() => {
-    if (!data) {
-      return;
-    }
-    setCrimes(data);
-  }, [data]);
-
-  const categories = [...new Set(crimes?.map(({ category }) => category))];
+    const { putFilter: resetFilter } = resetButtonProps();
+    resetFilter(filtered);
+  }, [filtered]);
 
   return {
     crimesStyles,
-    error,
-    filtered,
-    categories,
-    crimes: getCrimes({ crimes }),
-    filter,
+    crimeStyles,
+    crimes: useMemo(
+      () =>
+        filtered
+          ? crimes.filter((crime) => crime.category === filtered)
+          : crimes,
+      [filtered, crimes]
+    ),
   };
 }
 export function useProps() {
   return {
+    useCrimes,
     initFiltered,
     putFilter,
-    initError,
-    putError,
-    initCrimes,
-    putCrimes,
   };
 }

@@ -1,6 +1,6 @@
 import { useStore } from "./utils";
 
-export function useContents() {
+export function useContainer() {
   const {
     mapStyles,
     url,
