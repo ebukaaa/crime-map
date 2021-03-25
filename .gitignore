@@ -7,7 +7,7 @@
 # /.vscode/
 
 # assets
-# /assets
+/assets
 
 # dependencies
 /node_modules
