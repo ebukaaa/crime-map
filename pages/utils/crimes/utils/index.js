@@ -1,32 +1,13 @@
-import { useEffect, useState } from "react";
-import useSWR from "swr";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useState } from "react";
 import { useProps as useAppProps } from "../..";
-import { crimesStyles } from "./style.module.scss";
+import { useProps as resetButtonProps } from "../../reset-button/utils";
+import { crimesStyles, crimeStyles } from "./style.module.scss";
 
 let initFiltered;
 let putFilter;
-let initError;
-function putError({ error }) {
-  if (initError === error) {
-    return null;
-  }
-  initError = error;
-  return undefined;
-}
-let initCrimes;
-function putCrimes({ crimes }) {
-  if (initCrimes === crimes) {
-    return null;
-  }
-  initCrimes = crimes;
-  return undefined;
-}
 
-export function getCrimes({ crimes }) {
-  return initFiltered
-    ? crimes.filter((crime) => crime.category === initFiltered)
-    : crimes;
-}
+const useCrimes = dynamic(() => import("..").then((mod) => mod.useCrimes));
 
 function updateFilter({ filtered, filter }) {
   if (initFiltered !== filtered) {
@@ -38,32 +19,34 @@ function updateFilter({ filtered, filter }) {
 }
 
 export function useStore() {
-  const { url, unmount } = useAppProps();
-  const { data: crimes = initCrimes, error = initError } = useSWR(url);
+  const { unmount, initCrimes: crimes } = useAppProps();
 
-  const [filtered, filter] = useState();
+  const [filtered, filter] = useState(null);
   updateFilter({ filtered, filter });
   useEffect(() => unmount({ set: filter }), [unmount]);
   useEffect(() => updateFilter({ filtered }), [filtered]);
 
-  const categories = [...new Set(crimes?.map((crime) => crime.category))];
+  useEffect(() => {
+    const { putFilter: resetFilter } = resetButtonProps();
+    resetFilter(filtered);
+  }, [filtered]);
 
   return {
     crimesStyles,
-    error,
-    filtered,
-    categories,
-    crimes: getCrimes({ crimes }),
-    filter,
+    crimeStyles,
+    crimes: useMemo(
+      () =>
+        filtered
+          ? crimes.filter((crime) => crime.category === filtered)
+          : crimes,
+      [filtered, crimes]
+    ),
   };
 }
 export function useProps() {
   return {
+    useCrimes,
     initFiltered,
     putFilter,
-    initError,
-    putError,
-    initCrimes,
-    putCrimes,
   };
 }

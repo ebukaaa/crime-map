@@ -1,5 +1,7 @@
 import { shallow } from "enzyme";
-import { useStore, useProps, getCrimes } from "..";
+import { useProps, useStore } from "..";
+import { useStore as AppStore, useProps as appProps } from "../../..";
+import { useStore as ResetButtonStore } from "../../../reset-button/utils";
 
 describe("utils", () => {
   let useEffect;
@@ -21,59 +23,41 @@ describe("utils", () => {
 
   afterEach(() => shallow(<Store />));
 
-  test("calls Store", () => {
-    useEffect = jest.spyOn(React, "useEffect");
-    unmount = jest.spyOn(React, "useEffect");
+  describe("useStore", () => {
+    test("initialises", () => {
+      shallow(<ResetButtonStore />);
+      useEffect = jest.spyOn(React, "useEffect");
+      unmount = jest.spyOn(React, "useEffect");
 
-    mockUnmount();
-    mockEffect();
+      mockUnmount();
+      mockEffect();
 
-    wrapper = shallow(<Store />);
-    expect(wrapper.isEmptyRender()).toBeFalsy();
-  });
+      mockEffect();
 
-  describe("put", () => {
-    describe("error", () => {
-      test("sets", () => {
-        const { putError } = useProps();
-        const result = putError({ error: "error" });
-        const { initError } = useProps();
-        expect(initError).toEqual("error");
-        expect(result).toBeUndefined();
-
-        const result2 = putError({ error: "error" });
-        expect(result2).toBeNull();
-      });
+      wrapper = shallow(<Store />);
+      expect(wrapper.isEmptyRender()).toBeFalsy();
     });
-    describe("crimes", () => {
-      test("sets", () => {
-        const { putCrimes } = useProps();
-        const crimes = [{ category: "test" }];
-        const result = putCrimes({ crimes });
-        const { initCrimes } = useProps();
-        expect(initCrimes).toEqual(crimes);
-        expect(result).toBeUndefined();
 
-        const result2 = putCrimes({ crimes });
-        expect(result2).toBeNull();
-      });
-    });
-  });
-  describe("get", () => {
-    describe("crimes", () => {
-      const crimes = [{ category: "test" }, { category: "test2" }];
+    describe("crimes useMemo", () => {
+      const filtered = "category2";
+      const crimes = [{ category: "category1" }, { category: filtered }];
 
-      test("returns crimes if initFiltered = null", () => {
-        const result = getCrimes({ crimes });
-
-        expect(result).toEqual(crimes);
-      });
-      test("returns filteredCrimes if initFiltered != null", () => {
+      test("returns filtered crimes if filtered != null", () => {
+        shallow(<AppStore />);
+        const { putCrimes } = appProps();
+        putCrimes(crimes);
         const { putFilter } = useProps();
-        putFilter(crimes[0].category);
-        const result = getCrimes({ crimes });
-
-        expect(result).toEqual([crimes[0]]);
+        putFilter(filtered);
+        const { initFiltered } = useProps();
+        expect(initFiltered).toEqual(filtered);
+      });
+    });
+  });
+  describe("dynamic", () => {
+    describe("useCrimes", () => {
+      test("renders", () => {
+        const { useCrimes: Crimes } = useProps();
+        expect(shallow(<Crimes />).isEmptyRender()).toBeFalsy();
       });
     });
   });

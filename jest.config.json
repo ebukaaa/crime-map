@@ -12,7 +12,8 @@
     "!**/tests/**",
     "!**/coverage/**",
     "!**/.next/**",
-    "!**/jest_dx/**"
+    "!**/jest_dx/**",
+    "!**/pages/map/**"
   ],
   "coverageDirectory": "coverage",
   "coverageReporters": ["json", "text", "lcov", "clover"],
@@ -54,7 +55,8 @@
     "/.next/",
     "/node_modules/",
     "/tests/",
-    "/coverage/"
+    "/coverage/",
+    "/pages/map/"
   ],
   "transform": {
     "^.+\\.jsx?$": "babel-jest"

@@ -21,7 +21,7 @@ describe("utils", () => {
 
   afterEach(() => shallow(<Store />));
 
-  test("calls Store", () => {
+  test("calls useStore", () => {
     // useEffect = jest.spyOn(React, "useEffect");
     // unmount = jest.spyOn(React, "useEffect");
 

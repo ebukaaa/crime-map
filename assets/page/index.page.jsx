@@ -5,5 +5,4 @@ export function usePage() {
 
   return <main className={page}>Page</main>;
 }
-
 export default usePage;

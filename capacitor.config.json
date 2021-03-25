@@ -1,0 +1,13 @@
+{
+  "appId": "com.deciphercode.crimemap",
+  "appName": "CrimeMap",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "out",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

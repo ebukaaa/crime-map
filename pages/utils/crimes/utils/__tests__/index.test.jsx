@@ -1,37 +1,26 @@
 import { shallow } from "enzyme";
 import { useCrimes } from "../..";
-import { useProps } from "..";
+import { useStore as AppStore, useProps as appProps } from "../../..";
 
 describe("useCrimes", () => {
-  describe("renders", () => {
+  it("renders with outcome.category", () => {
+    shallow(<AppStore />);
+    const { putCrimes } = appProps();
+    putCrimes([
+      {
+        category: "category",
+        id: "id",
+        month: "month",
+        outcome_status: { category: "outcome.category" },
+        location: {
+          latitude: "latitude",
+          longitude: "longitude",
+          street: { name: "name" },
+        },
+      },
+    ]);
     const Crimes = useCrimes;
-
-    it("loading", () => {
-      const wrapper = shallow(<Crimes />).find("main");
-      expect(wrapper.text()).toEqual("Loading crimes...");
-    });
-    describe("with", () => {
-      const { putCrimes } = useProps();
-
-      beforeEach(() => putCrimes({ crimes: [{ category: "test" }] }));
-
-      it("categories", () => {
-        const wrapper = shallow(<Crimes />).find("pre");
-        expect(wrapper.isEmptyRender()).toBeFalsy();
-      });
-      it("filtered", () => {
-        const wrapper = shallow(<Crimes />);
-        const { putFilter } = useProps();
-        putFilter(true);
-        expect(wrapper.find("#reset").isEmptyRender()).toBeFalsy();
-      });
-    });
-
-    it("error", () => {
-      const { putError } = useProps();
-      putError({ error: "Error loading" });
-      const wrapper = shallow(<Crimes />).find("main");
-      expect(wrapper.text()).toEqual("Error fetching crimes");
-    });
+    const wrapper = shallow(<Crimes />);
+    expect(wrapper.isEmptyRender()).toBeFalsy();
   });
 });

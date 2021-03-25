@@ -1,23 +1,15 @@
 import { shallow } from "enzyme";
 import { useApp } from "../../_app.page";
 
-const props = { Component: jest.fn(), pageProps: {} };
-
 describe("app", () => {
-  let wrapper;
-  let app;
-  const { Component, pageProps } = props;
+  const Component = jest.fn();
+  const pageProps = {};
 
-  function App() {
-    return useApp({ Component, pageProps });
-  }
-
-  beforeEach(() => {
-    wrapper = shallow(<App />);
-    app = wrapper.find("#app");
-  });
-
-  test("should render", () => {
-    expect(app).toHaveLength(1);
+  test("renders", () => {
+    function App() {
+      return useApp({ Component, pageProps });
+    }
+    const wrapper = shallow(<App />).find("#app");
+    expect(wrapper.isEmptyRender()).toBeFalsy();
   });
 });
