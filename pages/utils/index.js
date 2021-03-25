@@ -16,7 +16,7 @@ const url = `${
   process.env.NEXT_PUBLIC_CRIME_API
 }?lat=${latitude}&lng=${longitude}&date=${new Date().getFullYear()}-01`;
 
-export async function fetcher(...args) {
+async function fetcher(...args) {
   return fetch(...args).then((response) => response?.json());
 }
 
@@ -27,6 +27,19 @@ function unmount({ set, value }) {
 function filter(value) {
   const { putFilter } = crimesProps();
   putFilter(value);
+}
+
+export function checkData({ crimes, SWRData }) {
+  if (crimes || !SWRData) {
+    return;
+  }
+  putCrimes(SWRData);
+}
+export function checkError({ SWRError }) {
+  if (!SWRError) {
+    return;
+  }
+  putError(SWRError);
 }
 
 function updateCrimes({ crimes, setCrimes }) {
@@ -54,21 +67,14 @@ export function useStore({ data }) {
   useEffect(() => unmount({ set: setCrimes }), []);
   useEffect(() => updateCrimes({ crimes }), [crimes]);
 
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   updateError({ error, setError });
   useEffect(() => unmount({ set: setError }), []);
   useEffect(() => updateError({ error }), [error]);
 
-  useEffect(() => {
-    if (crimes) {
-      return;
-    }
-    if (!SWRData) {
-      return;
-    }
-    setCrimes(SWRData);
-    setError(SWRError);
-  }, [crimes, SWRData, SWRError]);
+  useEffect(() => checkData({ crimes, SWRData }), [crimes, SWRData]);
+
+  useEffect(() => checkError({ SWRError }), [SWRError]);
 
   const { useCrimes } = crimesProps();
 

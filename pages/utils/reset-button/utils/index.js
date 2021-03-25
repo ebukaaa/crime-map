@@ -16,7 +16,7 @@ function updateFilter({ filtered, filter }) {
 export function useStore() {
   const { unmount, filter: filterCrimes } = useAppProps();
 
-  const [filtered, filter] = useState();
+  const [filtered, filter] = useState(null);
   updateFilter({ filtered, filter });
   useEffect(() => unmount({ set: filter }), [unmount]);
   useEffect(() => updateFilter({ filtered }), [filtered]);

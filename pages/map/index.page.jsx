@@ -1,9 +1,14 @@
 import { useStore } from "./utils";
 
 export function useMap() {
-  const { Container } = useStore();
+  const { alertStyles, isOnline, Container } = useStore();
 
-  return <Container />;
+  return !isOnline ? (
+    <p id="alert" className={alertStyles}>
+      You need internet to load map
+    </p>
+  ) : (
+    <Container />
+  );
 }
-
 export default useMap;

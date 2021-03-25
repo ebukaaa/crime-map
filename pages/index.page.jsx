@@ -13,7 +13,7 @@ export function useHome({ crimes: data }) {
   } = useStore({ data });
 
   if (error) {
-    return <main>{error}</main>;
+    return <main id="error">Error fetching crimes data</main>;
   }
 
   return !crimes ? (

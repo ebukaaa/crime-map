@@ -1,9 +1,10 @@
 import { shallow } from "enzyme";
-import {} from "../..";
+import { useContainer } from "../..";
 
-describe("use", () => {
+describe("useContainer", () => {
   it("renders", () => {
-    const wrapper = shallow();
+    const Container = useContainer;
+    const wrapper = shallow(<Container />);
     expect(wrapper.isEmptyRender()).toBeFalsy();
   });
 });

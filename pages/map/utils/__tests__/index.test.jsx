@@ -1,9 +1,23 @@
 import { shallow } from "enzyme";
-import {} from "../../index.page";
+import { useProps } from "..";
+import { useMap } from "../../index.page";
 
-describe("use", () => {
-  it("renders", () => {
-    const wrapper = shallow();
-    expect(wrapper.isEmptyRender()).toBeFalsy();
+describe("useMap", () => {
+  describe("renders", () => {
+    const Map = useMap;
+
+    it("alert if !isOnline", () => {
+      expect(
+        shallow(<Map />)
+          .find("#alert")
+          .isEmptyRender()
+      ).toBeFalsy();
+    });
+    it("not alert if isOnline", () => {
+      const wrapper = shallow(<Map />);
+      const { putOnline } = useProps();
+      putOnline(true);
+      expect(wrapper.find("#alert").isEmptyRender()).toBeTruthy();
+    });
   });
 });

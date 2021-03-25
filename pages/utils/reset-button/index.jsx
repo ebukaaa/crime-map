@@ -6,7 +6,7 @@ export function useResetButton() {
   return !filtered ? (
     <></>
   ) : (
-    <button id="reset" type="button" onClick={filter.bind(null, null)}>
+    <button type="button" onClick={filter.bind(null, null)}>
       reset
     </button>
   );

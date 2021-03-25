@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, useMap as Map } from "react-leaflet";
+import { useMarker } from "./marker";
 import { mapStyles } from "./style.module.scss";
 import "leaflet/dist/leaflet.css";
-import { useMarker } from "./marker";
 
 let map;
 
